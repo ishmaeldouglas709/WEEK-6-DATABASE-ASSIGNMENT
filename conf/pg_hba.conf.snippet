@@ -1,0 +1,5 @@
+# pg_hba.conf snippet -- add on the PRIMARY before
+# scripts/04_streaming_standby.sh, then:
+#   sudo systemctl reload postgresql
+
+host replication replicator 127.0.0.1/32 md5

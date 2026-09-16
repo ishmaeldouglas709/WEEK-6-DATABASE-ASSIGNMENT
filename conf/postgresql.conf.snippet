@@ -1,0 +1,13 @@
+# postgresql.conf snippet -- NOT a shell script, $USER will not expand.
+# Replace YOUR_ACTUAL_USERNAME with the output of `whoami`.
+
+# --- [ARCHIVING] apply before scripts/02_wal_archiving_basebackup.sh ---
+wal_level = replica
+archive_mode = on
+archive_command = 'cp %p /home/YOUR_ACTUAL_USERNAME/backups/wal/%f'
+
+# --- [RECOVERY] apply before scripts/03_disaster_recovery.sh ---
+# recovery_target_time is the timestamp printed by
+# sql/03_disaster_simulation.sql's SELECT now(), taken BEFORE the DELETE.
+restore_command = 'cp /home/YOUR_ACTUAL_USERNAME/backups/wal/%f %p'
+recovery_target_time = '2025-06-01 10:00:00'
